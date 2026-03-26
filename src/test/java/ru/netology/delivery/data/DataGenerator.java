@@ -13,47 +13,7 @@ public class DataGenerator {
     }
 
     public static String generateDate(int shift) {
-        // Generate date with shift days
-        LocalDate date = LocalDate.now().plusDays(shift);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        return date.format(formatter);
-    }
-
-    public static String generateCity(Faker faker) {
-        // Array of valid cities
-        String[] cities = {
-                "Москва", "Санкт-Петербург", "Казань", "Екатеринбург",
-                "Новосибирск", "Красноярск", "Владивосток", "Сочи",
-                "Уфа", "Ростов-на-Дону", "Нижний Новгород", "Самара"
-        };
-        Random random = new Random();
-        return cities[random.nextInt(cities.length)];
-    }
-
-    public static String generateCity(String locale) {
-        // Alternative method to generate city by locale
-        Faker faker = new Faker(new Locale(locale));
-        return generateCity(faker);
-    }
-
-    public static String generateName(Faker faker) {
-        // Generate name in "Lastname Firstname" format
-        return faker.name().lastName() + " " + faker.name().firstName();
-    }
-
-    public static String generateName(String locale) {
-        Faker faker = new Faker(new Locale(locale));
-        return generateName(faker);
-    }
-
-    public static String generatePhone(Faker faker) {
-        // Generate Russian phone number
-        return faker.phoneNumber().subscriberNumber(10);
-    }
-
-    public static String generatePhone(String locale) {
-        Faker faker = new Faker(new Locale(locale));
-        return generatePhone(faker);
+        return LocalDate.now().plusDays(shift).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
     }
 
     public static class Registration {
@@ -63,10 +23,27 @@ public class DataGenerator {
         public static UserInfo generateUser(String locale) {
             Faker faker = new Faker(new Locale(locale));
             return new UserInfo(
-                    generateCity(faker),
+                    generateCity(),
                     generateName(faker),
                     generatePhone(faker)
             );
+        }
+
+        private static String generateCity() {
+            String[] cities = {
+                    "Москва", "Санкт-Петербург", "Казань", "Екатеринбург",
+                    "Новосибирск", "Красноярск", "Владивосток", "Сочи",
+                    "Уфа", "Ростов-на-Дону", "Нижний Новгород", "Самара"
+            };
+            return cities[new Random().nextInt(cities.length)];
+        }
+
+        private static String generateName(Faker faker) {
+            return faker.name().firstName() + " " + faker.name().lastName();
+        }
+
+        private static String generatePhone(Faker faker) {
+            return "+7" + faker.number().digits(10);
         }
     }
 
