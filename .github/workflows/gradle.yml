@@ -22,8 +22,8 @@ jobs:
         run: chmod +x gradlew
 
       - name: Start SUT
-        run: java -jar artifacts/app-ibank.jar -P:profile=test &
-      
+        run: java -jar artifacts/app-replan-delivery.jar &
+
       - name: Wait for app to start
         run: sleep 10
 
